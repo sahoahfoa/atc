@@ -23,8 +23,8 @@ public class AtcApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 
 		// clears all rows from plane
-		final String sql = "DELETE FROM plane;" ;
-		jdbcTemplate.update(sql);
+		// final String sql = "DELETE FROM plane;" ;
+		// jdbcTemplate.update(sql);
 
 		// insert 100 planes into the database
 		PlaneDataAccessService planeDataAccessService = new PlaneDataAccessService(jdbcTemplate);

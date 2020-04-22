@@ -22,14 +22,14 @@ public class PlaneDataAccessService implements PlaneDao {
 
 
     @Override
-    public int insertPlane(UUID id, Plane plane) {
+    public int insertPlane(UUID plane_id, Plane plane) {
         final String sql = "INSERT INTO plane " +
                 "(plane_id, tail_number, state, last_action, distance, altitude, speed, heading)" +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         return jdbcTemplate.update(
                 sql,
-                id,
+                plane_id,
                 plane.getTail_number(),
                 plane.getState(),
                 plane.getLast_action(),
@@ -49,7 +49,7 @@ public class PlaneDataAccessService implements PlaneDao {
                 sql,
                 // row mapper (lambda)
                 (resultSet, i) -> {
-            UUID id = UUID.fromString(resultSet.getString("plane_id"));
+            UUID plane_id = UUID.fromString(resultSet.getString("plane_id"));
             String tail_number = resultSet.getString("tail_number");
             String state = resultSet.getString("state");
             long last_action = resultSet.getLong("last_action");
@@ -57,7 +57,7 @@ public class PlaneDataAccessService implements PlaneDao {
             int altitude = resultSet.getInt("altitude");
             int speed = resultSet.getInt("speed");
             int heading = resultSet.getInt("heading");
-            return new Plane(id, tail_number, state, last_action, distance, altitude, speed, heading);
+            return new Plane(plane_id, tail_number, state, last_action, distance, altitude, speed, heading);
                 });
         return planes;
     }
@@ -67,22 +67,19 @@ public class PlaneDataAccessService implements PlaneDao {
         final String sql = "SELECT * FROM plane WHERE plane_id = ?";
 
         Plane plane = jdbcTemplate.queryForObject(
-                // pass sql query as string
-                sql,
-                // new object array with query (id, ...)
-                new Object[]{id},
-                // row mapper (lambda)
-                (resultSet, i) -> {
-            UUID planeId = UUID.fromString(resultSet.getString("plane_id"));
-            String tail_number = resultSet.getString("tail_number");
-            String state = resultSet.getString("state");
-            long last_action = resultSet.getLong("last_action");
-            int distance = resultSet.getInt("distance");
-            int altitude = resultSet.getInt("altitude");
-            int speed = resultSet.getInt("speed");
-            int heading = resultSet.getInt("heading");
-            return new Plane(id, tail_number, state, last_action, distance, altitude, speed, heading);
-                });
+            sql,
+            new Object[]{id},
+            (resultSet, i) -> {
+                UUID plane_id = UUID.fromString(resultSet.getString("plane_id"));
+                String tail_number = resultSet.getString("tail_number");
+                String state = resultSet.getString("state");
+                long last_action = resultSet.getLong("last_action");
+                int distance = resultSet.getInt("distance");
+                int altitude = resultSet.getInt("altitude");
+                int speed = resultSet.getInt("speed");
+                int heading = resultSet.getInt("heading");
+                return new Plane(plane_id, tail_number, state, last_action, distance, altitude, speed, heading);
+        });
         return Optional.ofNullable(plane);
     }
 

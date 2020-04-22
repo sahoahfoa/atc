@@ -12,7 +12,7 @@ public class PlaneGen extends Plane {
 
         // String flightNumber = generateFlightNumber();
         // String planeClass = generatePlaneClass();
-        id = UUID.randomUUID();
+        plane_id = UUID.randomUUID();
         tail_number = generateTail_number();
         state = generateState();
         last_action = generateLast_action();

@@ -1,13 +1,18 @@
 package com.example.atc.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 import javax.validation.constraints.NotBlank;
 import java.util.UUID;
 
+@Entity
 public class Plane {
-
-    protected UUID id;
+    @Id
+    protected UUID plane_id;
     @NotBlank
     protected String tail_number;
     protected String state;
@@ -20,7 +25,7 @@ public class Plane {
     public Plane() {
     }
 
-    public Plane(@JsonProperty("plane_id") UUID id,
+    public Plane(@JsonProperty("plane_id") UUID plane_id,
                  @JsonProperty("tail_number") String tail_number,
                  @JsonProperty("state") String state,
                  @JsonProperty("last_action") long last_action,
@@ -30,7 +35,7 @@ public class Plane {
                  @JsonProperty("heading") int heading) {
 
 
-        this.id = id;
+        this.plane_id = plane_id;
         this.tail_number = tail_number;
         this.state = state;
         this.last_action = last_action;
@@ -40,8 +45,8 @@ public class Plane {
         this.heading = heading;
     }
 
-    public UUID getId() {
-        return id;
+    public UUID getPlane_id() {
+        return plane_id;
     }
 
     public String getTail_number() {
